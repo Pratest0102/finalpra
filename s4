@@ -1,0 +1,148 @@
+1. Write a Java Program to implement Factory method for Pizza Store with createPizza(), 
+orederPizza(), prepare(), Bake(), cut(), box(). Use this to create variety of pizza’s like 
+NyStyleCheesePizza, ChicagoStyleCheesePizza etc.
+Pizza.java
+public abstract class Pizza {
+ public abstract void prepare();
+ public abstract void bake();
+ public abstract void cut();
+ public abstract void box();
+}
+NyStyleCheesePizza.java
+public class NyStyleCheesePizza extends Pizza {
+ @Override
+ public void prepare() {
+ System.out.println("Preparing NY Style Cheese Pizza");
+ }
+ @Override
+ public void bake() {
+ System.out.println("Baking NY Style Cheese Pizza");
+ }
+ @Override
+ public void cut() {
+ System.out.println("Cutting NY Style Cheese Pizza");
+ }
+ @Override
+ public void box() {
+ System.out.println("Boxing NY Style Cheese Pizza");
+ }
+}
+ChicagoStyleCheesePizza.java
+public class ChicagoStyleCheesePizza extends Pizza {
+ @Override
+ public void prepare() {
+ System.out.println("Preparing Chicago Style Cheese Pizza");
+ }
+ @Override
+ public void bake() {
+ System.out.println("Baking Chicago Style Cheese Pizza");
+ }
+ @Override
+ public void cut() {
+ System.out.println("Cutting Chicago Style Cheese Pizza");
+ }
+ @Override
+ public void box() {
+ System.out.println("Boxing Chicago Style Cheese Pizza");
+ }
+}
+PizzaStore.java
+public class PizzaStore {
+ public Pizza createPizza(String type) {
+ if (type.equals("NY")) {
+ return new NyStyleCheesePizza();
+ } else if (type.equals("Chicago")) {
+ return new ChicagoStyleCheesePizza();
+ }
+ return null;
+ }
+ public void orderPizza(String type) {
+ Pizza pizza = createPizza(type);
+ if (pizza != null) {
+ pizza.prepare();
+ pizza.bake();
+ pizza.cut();
+ pizza.box();
+ } else {
+ System.out.println("Invalid pizza type");
+ }
+ }
+}
+Main.java
+public class Main {
+ public static void main(String[] args) {
+ PizzaStore pizzaStore = new PizzaStore();
+ pizzaStore.orderPizza("NY");
+ System.out.println("-----------------------");
+ pizzaStore.orderPizza("Chicago");
+ }
+}
+
+
+
+
+
+2. Write a python program to Implement Simple Linear Regression for predicting house price.
+//pip install numpy pandas scikit-learn
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+# Load the dataset
+data = pd.read_csv('house_prices.csv')
+X = data['Area'].values.reshape(-1, 1) # Independent variable (Area)
+y = data['Price'].values # Dependent variable (Price)
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Create a Linear Regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+# Make predictions
+y_pred = model.predict(X_test)
+# Plot the regression line
+plt.scatter(X, y, color='blue')
+plt.plot(X, model.predict(X), color='red')
+plt.title('House Price Prediction (Simple Linear Regression)')
+plt.xlabel('Area')
+plt.ylabel('Price')
+plt.show()
+# Predict house price for a new input
+new_area = 1500
+predicted_price = model.predict(np.array([[new_area]]))
+print(f'Predicted Price for {new_area} sq. ft: ${predicted_price[0]:.2f}')
+
+
+
+
+3. Create a Node.js file that will convert the output "Hello World!" into upper-case letters.
+// Import the built-in 'stream' module
+const stream = require('stream');
+// Create a writable stream that converts text to uppercase
+const uppercaseStream = new stream.Transform({
+ transform(chunk, encoding, callback) {
+ // Convert the input chunk to uppercase and push it to the output
+ this.push(chunk.toString().toUpperCase());
+ callback();
+ }
+});
+// Pipe the input text to the uppercase stream
+process.stdin.pipe(uppercaseStream).pipe(process.stdout);
+// Test the script with the "Hello World!" input
+console.log("Input: Hello World!");
+console.log("Output (Uppercase):");
+process.stdin.push("Hello World!");
+
+
+
+
+
+
+house_prices.csv
+Area, Price
+1400, 150000
+1600, 180000
+1700, 190000
+1875, 220000
+1100, 142000
+
