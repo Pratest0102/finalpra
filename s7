@@ -1,0 +1,187 @@
+1.Write a Java Program to implement undo command to test Ceiling fan.
+CeilingFan.java:
+public class CeilingFan {
+ private boolean isOn = false;
+ private int speed = 0;
+ public void turnOn() {
+ isOn = true;
+ System.out.println("Ceiling fan is ON.");
+ }
+ public void turnOff() {
+ isOn = false;
+ System.out.println("Ceiling fan is OFF.");
+ }
+ public void setSpeed(int newSpeed) {
+ speed = newSpeed;
+ System.out.println("Ceiling fan speed is set to " + speed);
+ }
+ public int getSpeed() {
+ return speed;
+ }
+ public void undo() {
+ if (isOn) {
+ System.out.println("Undoing last command.");
+ setSpeed(speed);
+ } else {
+ System.out.println("Cannot undo when the fan is off.");
+ }
+ }
+}
+Command.java (Interface):
+public interface Command {
+ void execute();
+ void undo();
+}
+
+CeilingFanOnCommand.java:
+public class CeilingFanOnCommand implements Command {
+ private CeilingFan ceilingFan;
+ public CeilingFanOnCommand(CeilingFan fan) {
+ this.ceilingFan = fan;
+ }
+ public void execute() {
+ ceilingFan.turnOn();
+ }
+ public void undo() {
+ ceilingFan.turnOff();
+ }
+}
+
+CeilingFanSpeedCommand.java:
+public class CeilingFanSpeedCommand implements Command {
+ private CeilingFan ceilingFan;
+ private int newSpeed;
+ private int prevSpeed;
+ public CeilingFanSpeedCommand(CeilingFan fan, int speed) {
+ this.ceilingFan = fan;
+ this.newSpeed = speed;
+ }
+ public void execute() {
+ prevSpeed = ceilingFan.getSpeed();
+ ceilingFan.setSpeed(newSpeed);
+ }
+ public void undo() {
+ ceilingFan.setSpeed(prevSpeed);
+ }
+}
+
+RemoteControl.java:
+import java.util.Stack;
+public class RemoteControl {
+ private Command command;
+ private Stack<Command> history = new Stack<>();
+ public void setCommand(Command command) {
+ this.command = command;
+ }
+ public void pressButton() {
+ command.execute();
+ history.push(command);
+ }
+ public void pressUndo() {
+ if (!history.isEmpty()) {
+ Command lastCommand = history.pop();
+ lastCommand.undo();
+ } else {
+ System.out.println("No more commands to undo.");
+ }
+ }
+}
+
+CeilingFanDemo.java:
+public class CeilingFanDemo {
+ public static void main(String[] args) {
+ CeilingFan fan = new CeilingFan();
+ RemoteControl remoteControl = new RemoteControl();
+ CeilingFanOnCommand onCommand = new CeilingFanOnCommand(fan);
+ CeilingFanSpeedCommand speedCommand = new CeilingFanSpeedCommand(fan, 3);
+ remoteControl.setCommand(onCommand);
+ remoteControl.pressButton();
+ remoteControl.setCommand(speedCommand);
+ remoteControl.pressButton();
+ remoteControl.pressUndo(); // Undo the speed change
+ remoteControl.pressUndo(); // Undo turning the fan on
+ remoteControl.pressUndo(); // Attempting to undo when no more commands
+ }
+}
+
+
+
+
+2.Write a python program to implement Naive Bayes.
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+# Load the dataset
+data = pd.read_csv('example_dataset.csv')
+# Preprocess the data
+data['Outlook'] = data['Outlook'].astype('category').cat.codes
+data['Temperature'] = data['Temperature'].astype('category').cat.codes
+data['Humidity'] = data['Humidity'].astype('category').cat.codes
+data['Windy'] = data['Windy'].astype('category').cat.codes
+data['PlayTennis'] = data['PlayTennis'].astype('category').cat.codes
+# Split the data into features and target
+X = data[['Outlook', 'Temperature', 'Humidity', 'Windy']]
+y = data['PlayTennis']
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Create a Gaussian Naive Bayes classifier
+nb_classifier = GaussianNB()
+# Train the classifier
+nb_classifier.fit(X_train, y_train)
+# Make predictions
+y_pred = nb_classifier.predict(X_test)
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy * 100:.2f}%')
+
+
+
+
+3.Create a Node.js file that writes an HTML form, with an upload field.
+const fs = require('fs');
+const http = require('http');
+http.createServer((req, res) => {
+ if (req.url === '/upload' && req.method === 'POST') {
+ // Handle file upload here
+ // You can access the uploaded file using req object and process it as needed
+ // For simplicity, let's just log the file details
+ console.log('File uploaded:', req.headers['content-type']);
+ res.end('File uploaded successfully!');
+ } else {
+ // Render the HTML form
+ res.writeHead(200, { 'Content-Type': 'text/html' });
+ res.write(`
+ <form action="/upload" method="post" enctype="multipart/form-data">
+ <input type="file" name="fileUpload">
+ <input type="submit" value="Upload">
+ </form>
+ `);
+ res.end();
+ }
+}).listen(3000, () => {
+ console.log('Server is running on http://localhost:3000');
+});
+
+
+
+
+
+
+example_dataset.csv
+Outlook, Temperature, Humidity, Windy, PlayTennis
+Sunny, Hot, High, False, No
+Sunny, Hot, High, True, No
+Overcast, Hot, High, False, Yes
+Rainy, Mild, High, False, Yes
+Rainy, Cool, Normal, False, Yes
+Rainy, Cool, Normal, True, No
+Overcast, Cool, Normal, True, Yes
+Sunny, Mild, High, False, No
+Sunny, Cool, Normal, False, Yes
+Rainy, Mild, Normal, False, Yes
+Sunny, Mild, Normal, True, Yes
+Overcast, Mild, High, True, Yes
+Overcast, Hot, Normal, False, Yes
+Rainy, Mild, High, True, No
+
