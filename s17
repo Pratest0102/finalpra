@@ -1,0 +1,142 @@
+1.Write a Java Program to implement Abstract Factory Pattern for Shape interface.
+
+Shape.java
+public interface Shape {
+ void draw();
+}
+
+Circle.java
+public class Circle implements Shape {
+ @Override
+ public void draw() {
+ System.out.println("Inside Circle::draw() method.");
+ }
+}
+
+Rectangle.java
+public class Rectangle implements Shape {
+ @Override
+ public void draw() {
+ System.out.println("Inside Rectangle::draw() method.");
+ }
+}
+
+ShapeFactory.java
+public interface ShapeFactory {
+ Shape createShape();
+}
+
+CircleFactory.java
+public class CircleFactory implements ShapeFactory {
+ @Override
+ public Shape createShape() {
+ return new Circle();
+ }
+}
+
+RectangleFactory.java
+public class RectangleFactory implements ShapeFactory {
+ @Override
+ public Shape createShape() {
+ return new Rectangle();
+ }
+}
+
+Main.java
+public class Main {
+ public static void main(String[] args) {
+ ShapeFactory circleFactory = new CircleFactory();
+ Shape circle = circleFactory.createShape();
+ circle.draw();
+ ShapeFactory rectangleFactory = new RectangleFactory();
+ Shape rectangle = rectangleFactory.createShape();
+ rectangle.draw();
+ }
+}
+
+
+
+
+2.Write a python program to implement Multiple Linear Regression for a given dataset.
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+# Load the dataset from a CSV file
+dataset = pd.read_csv('dataset.csv')
+# Split the dataset into independent variables (X) and the dependent variable (y)
+X = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+# Split the dataset into a training set and a testing set (you can adjust the test_size)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# Create a Linear Regression model and fit it to the training data
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+# Make predictions on the test set
+y_pred = regressor.predict(X_test)
+# Calculate the Mean Squared Error
+mse = mean_squared_error(y_test, y_pred)
+print("Coefficients:", regressor.coef_)
+print("Intercept:", regressor.intercept_)
+print("Mean Squared Error:", mse)
+
+
+
+
+
+3.Write node js application that transfer a file as an attachment on web and enables browser to 
+prompt the user to download file using express js.
+
+1. Create a new Node.js project and install the necessary dependencies:
+mkdir file-download-app
+cd file-download-app
+npm init -y
+npm install express
+
+2. Create the following directory structure and add a sample file you want to serve for 
+download. For this example, I'll assume the file is named "sample.pdf."
+- file-download-app
+ - public
+ - sample.pdf
+ - server.js
+
+3. Create a basic Express.js server in the server.js file:
+const express = require('express');
+const app = express();
+const path = require('path');
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+// Define a route for downloading the file
+app.get('/download', (req, res) => {
+ const file = path.join(__dirname, 'public', 'sample.pdf');
+ // Set headers to prompt download
+ res.setHeader('Content-Disposition', 'attachment; filename=sample.pdf');
+ res.setHeader('Content-Type', 'application/pdf');
+ // Send the file as a response
+ res.sendFile(file);
+});
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+ console.log(`Server is running on port ${port}`);
+});
+
+4. Start the server by running:
+node server.js
+
+5. Now, you can access the file for download by navigating to 
+http://localhost:3000/download in your browser. The browser will prompt the 
+user to download the "sample.pdf" file.
+
+
+
+
+
+dataset.csv
+
+X1, X2, X3, y
+2.5, 3.0, 5.7, 56
+3.5, 2.7, 8.1, 81
+5.6, 2.4, 6.7, 119
+7.2, 3.6, 7.2, 165
+
