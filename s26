@@ -1,0 +1,175 @@
+1. Write a Java Program to implement Strategy Pattern for Duck Behavior. Create instance variable 
+that holds current state of Duck from there, we just need to handle all Flying Behaviors and Quack 
+Behavior.
+
+// FlyBehavior.java
+public interface FlyBehavior {
+ void fly();
+}
+
+// QuackBehavior.java
+public interface QuackBehavior {
+ void quack();
+}
+
+// Duck.java
+public abstract class Duck {
+ private FlyBehavior flyBehavior;
+ private QuackBehavior quackBehavior;
+ public Duck() {
+// Default constructor
+ }
+ public void setFlyBehavior(FlyBehavior flyBehavior) {
+ this.flyBehavior = flyBehavior;
+ }
+ public void setQuackBehavior(QuackBehavior quackBehavior) {
+ this.quackBehavior = quackBehavior;
+ }
+ public abstract void display();
+ public void performFly() {
+ flyBehavior.fly();
+ }
+ public void performQuack() {
+ quackBehavior.quack();
+ }
+ public void swim() {
+ System.out.println("All ducks float, even decoys.");
+ }
+}
+
+// MallardDuck.java
+public class MallardDuck extends Duck {
+ public MallardDuck() {
+ setFlyBehavior(new FlyWithWings());
+ setQuackBehavior(new Quack());
+ }
+ public void display() {
+ System.out.println("I'm a real Mallard duck.");
+ }
+}
+
+// FlyWithWings.java
+public class FlyWithWings implements FlyBehavior {
+ public void fly() {
+ System.out.println("I'm flying with wings!");
+ }
+}
+
+
+// Quack.java
+public class Quack implements QuackBehavior {
+ public void quack() {
+ System.out.println("Quack, quack!");
+ }
+}
+
+// Main.java
+public class Main {
+ public static void main(String[] args) {
+ Duck mallardDuck = new MallardDuck();
+ mallardDuck.display();
+ mallardDuck.performFly();
+ mallardDuck.performQuack();
+ mallardDuck.swim();
+ }
+}
+
+
+
+
+
+2. Write a python program to implement Multiple Linear Regression for given dataset.
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+# Load the dataset from a CSV file
+dataset = pd.read_csv('dataset.csv')
+# Split the dataset into independent variables (X) and the dependent variable (y)
+X = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+# Split the dataset into a training set and a testing set (you can adjust the test_size)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# Create a Linear Regression model and fit it to the training data
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+# Make predictions on the test set
+y_pred = regressor.predict(X_test)
+# Calculate the Mean Squared Error
+mse = mean_squared_error(y_test, y_pred)
+print("Coefficients:", regressor.coef_)
+print("Intercept:", regressor.intercept_)
+print("Mean Squared Error:", mse)
+
+
+
+
+
+3. Create a Node.js file that demonstrates create database and table in MySQL
+const mysql = require('mysql');
+// Create a MySQL connection
+const connection = mysql.createConnection({
+ host: 'localhost', // Replace with your MySQL server host
+ user: 'root', // Replace with your MySQL username
+ password: 'password', // Replace with your MySQL password
+});
+// Connect to MySQL server
+connection.connect((err) => {
+ if (err) {
+ console.error('Error connecting to MySQL: ' + err.stack);
+ return;
+ }
+ console.log('Connected to MySQL as ID ' + connection.threadId);
+ // Create a new database
+ connection.query('CREATE DATABASE IF NOT EXISTS mydatabase', (err) => {
+ if (err) {
+ console.error('Error creating database: ' + err.stack);
+ } else {
+ console.log('Database "mydatabase" created');
+ }
+ // Use the newly created database
+ connection.query('USE mydatabase', (err) => {
+ if (err) {
+ console.error('Error using database: ' + err.stack);
+ } else {
+ console.log('Using "mydatabase"');
+ }
+ // Create a table
+ const createTableQuery = `
+ CREATE TABLE IF NOT EXISTS users (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ username VARCHAR(255) NOT NULL,
+ email VARCHAR(255) NOT NULL
+ )`;
+ connection.query(createTableQuery, (err) => {
+ if (err) {
+ console.error('Error creating table: ' + err.stack);
+ } else {
+ console.log('Table "users" created');
+ }
+ // Close the MySQL connection
+ connection.end((err) => {
+ if (err) {
+ console.error('Error closing the connection: ' + err.stack);
+ } else {
+ console.log('Connection closed.');
+ }
+ });
+ });
+ });
+ });
+});
+
+
+
+
+
+dataset.csv
+
+X1, X2, X3, y
+2.5, 3.0, 5.7, 56
+3.5, 2.7, 8.1, 81
+5.6, 2.4, 6.7, 119
+7.2, 3.6, 7.2, 165
+
