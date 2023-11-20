@@ -1,0 +1,242 @@
+1. Write a Java Program to implement Singleton pattern for multithreading 
+
+Singleton.java 
+
+public class Singleton { 
+
+ private static volatile Singleton instance; 
+
+ private Singleton() { 
+
+ // Private constructor to prevent instantiation 
+
+ } 
+
+ public static Singleton getInstance() { 
+
+ if (instance == null) { 
+
+ synchronized (Singleton.class) { 
+
+ if (instance == null) { 
+
+ instance = new Singleton(); 
+
+ } 
+
+ } 
+
+ } 
+
+ return instance; 
+
+ } 
+
+} 
+
+Main.java 
+
+public class Main { 
+
+ public static void main(String[] args) { 
+
+ Singleton singleton1 = Singleton.getInstance(); 
+
+ Singleton singleton2 = Singleton.getInstance(); 
+
+ if (singleton1 == singleton2) { 
+
+ System.out.println("Both instances are the same."); 
+
+ } else { 
+
+ System.out.println("Instances are different."); 
+
+ } 
+
+ } 
+
+} 
+
+
+
+
+
+2. Write a python program to find all null values in a given dataset and remove them. 
+
+import pandas as pd 
+
+# Load the dataset from a CSV file 
+
+df = pd.read_csv('example_dataset.csv') 
+
+# Find and display null values in the dataset 
+
+print("Null values before removal:") 
+
+print(df.isnull().sum()) 
+
+# Remove rows with null values 
+
+df = df.dropna() 
+
+# Save the cleaned dataset to a new CSV file 
+
+cleaned_file_path = 'cleaned_dataset.csv' 
+
+df.to_csv(cleaned_file_path, index=False) 
+
+print("Null values after removal:") 
+
+print(df.isnull().sum()) 
+
+print(f"Cleaned dataset saved to {cleaned_file_path}") 
+
+
+
+
+
+
+3.Create an HTML form that contain the Employee Registration details and write a JavaScript to  
+
+validate DOB, Joining Date, and Salary. 
+
+<!DOCTYPE html> 
+
+<html> 
+
+<head> 
+
+ <title>Employee Registration Form</title> 
+
+ <script> 
+
+ // Function to validate DOB 
+
+ function validateDOB() { 
+
+ var dob = document.getElementById("dob").value; 
+
+ var dobDate = new Date(dob); 
+
+ var currentDate = new Date(); 
+
+ if (dobDate > currentDate) { 
+
+ alert("Invalid Date of Birth. Please enter a valid date."); 
+
+ return false; 
+
+ } 
+
+ return true; 
+
+ } 
+
+ // Function to validate Joining Date 
+
+ function validateJoiningDate() { 
+
+ var joiningDate = document.getElementById("joiningDate").value; 
+
+ var joiningDateObj = new Date(joiningDate); 
+
+ var currentDate = new Date(); 
+
+ if (joiningDateObj > currentDate) { 
+
+ alert("Invalid Joining Date. Please enter a valid date."); 
+
+ return false; 
+
+ } 
+
+ return true; 
+
+ } 
+
+ // Function to validate Salary 
+
+ function validateSalary() { 
+
+ var salary = document.getElementById("salary").value; 
+
+ if (isNaN(salary) || salary <= 0) { 
+
+ alert("Invalid Salary. Please enter a valid positive number."); 
+
+ return false; 
+
+ } 
+
+ return true; 
+
+ } 
+
+ // Function to validate the entire form 
+
+ function validateForm() { 
+
+ if (!validateDOB() || !validateJoiningDate() || !validateSalary()) { 
+
+ return false; 
+
+ } 
+
+ return true; 
+
+ } 
+
+ </script> 
+
+</head> 
+
+<body> 
+
+ <h1>Employee Registration Form</h1> 
+
+ <form onsubmit="return validateForm()"> 
+
+ <label for="name">Name:</label> 
+
+ <input type="text" id="name" required><br><br> 
+
+ <label for="dob">Date of Birth:</label> 
+
+ <input type="date" id="dob" required><br><br> 
+
+ <label for="joiningDate">Joining Date:</label> 
+
+ <input type="date" id="joiningDate" required><br><br> 
+
+ <label for="salary">Salary:</label> 
+
+ <input type="text" id="salary" required><br><br> 
+
+ <input type="submit" value="Submit"> 
+
+ </form> 
+
+</body> 
+
+</html> 
+
+
+
+example_dataset.csv 
+
+Name, Age, Gender 
+
+Alice, 25, Female 
+
+Bob, , Male 
+
+Charlie, 30, Male 
+
+David, , Male 
+
+Eva, 28, Female 
+
+ 
+
+ 
