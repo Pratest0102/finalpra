@@ -1,0 +1,90 @@
+1. Write a Java Program to implement Singleton pattern for multithreading.
+
+Singleton.java
+public class Singleton {
+ private static volatile Singleton instance;
+ private Singleton() {
+ // Private constructor to prevent instantiation
+ }
+ public static Singleton getInstance() {
+ if (instance == null) {
+ synchronized (Singleton.class) {
+ if (instance == null) {
+ instance = new Singleton();
+ }
+ }
+ }
+ return instance;
+ }
+}
+
+Main.java
+public class Main {
+ public static void main(String[] args) {
+ Singleton singleton1 = Singleton.getInstance();
+ Singleton singleton2 = Singleton.getInstance();
+ if (singleton1 == singleton2) {
+ System.out.println("Both instances are the same.");
+ } else {
+ System.out.println("Instances are different.");
+ }
+ }
+}
+
+
+
+
+2. Write a python program to Implement Simple Linear Regression for predicting house price.
+
+//pip install numpy pandas scikit-learn
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+# Load the dataset
+data = pd.read_csv('house_prices.csv')
+X = data['Area'].values.reshape(-1, 1) # Independent variable (Area)
+y = data['Price'].values # Dependent variable (Price)
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Create a Linear Regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+# Make predictions
+y_pred = model.predict(X_test)
+# Plot the regression line
+plt.scatter(X, y, color='blue')
+plt.plot(X, model.predict(X), color='red')
+plt.title('House Price Prediction (Simple Linear Regression)')
+plt.xlabel('Area')
+plt.ylabel('Price')
+plt.show()
+# Predict house price for a new input
+new_area = 1500
+predicted_price = model.predict(np.array([[new_area]]))
+print(f'Predicted Price for {new_area} sq. ft: ${predicted_price[0]:.2f}')
+
+
+
+
+
+3. Create a Node.js file that will convert the output "Hello World!" into upper-case letters.
+// Convert "Hello World!" to uppercase
+const text = "Hello World!";
+const uppercaseText = text.toUpperCase();
+console.log(uppercaseText);
+
+
+
+
+house_prices.csv
+
+Area, Price
+1400, 150000
+1600, 180000
+1700, 190000
+1875, 220000
+1100, 142000
+
