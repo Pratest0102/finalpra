@@ -1,0 +1,179 @@
+1.Write a Java Program to implement Factory method for Pizza Store with createPizza(), 
+orederPizza(), prepare(), Bake(), cut(), box(). Use this to create variety of pizza’s
+like NyStyleCheesePizza, ChicagoStyleCheesePizza etc.
+
+Pizza.java
+public abstract class Pizza {
+ public abstract void prepare();
+ public abstract void bake();
+ public abstract void cut();
+ public abstract void box();
+}
+
+NyStyleCheesePizza.java
+public class NyStyleCheesePizza extends Pizza {
+ @Override
+ public void prepare() {
+ System.out.println("Preparing NY Style Cheese Pizza");
+ }
+ @Override
+ public void bake() {
+ System.out.println("Baking NY Style Cheese Pizza");
+ }
+ @Override
+ public void cut() {
+ System.out.println("Cutting NY Style Cheese Pizza");
+ }
+ @Override
+ public void box() {
+ System.out.println("Boxing NY Style Cheese Pizza");
+ }
+}
+
+ChicagoStyleCheesePizza.java
+public class ChicagoStyleCheesePizza extends Pizza {
+ @Override
+ public void prepare() {
+ System.out.println("Preparing Chicago Style Cheese Pizza");
+ }
+ @Override
+ public void bake() {
+ System.out.println("Baking Chicago Style Cheese Pizza");
+ }
+ @Override
+ public void cut() {
+ System.out.println("Cutting Chicago Style Cheese Pizza");
+ }
+ @Override
+ public void box() {
+ System.out.println("Boxing Chicago Style Cheese Pizza");
+ }
+}
+
+PizzaStore.java
+public class PizzaStore {
+ public Pizza createPizza(String type) {
+ if (type.equals("NY")) {
+ return new NyStyleCheesePizza();
+ } else if (type.equals("Chicago")) {
+ return new ChicagoStyleCheesePizza();
+ }
+ return null;
+ }
+ public void orderPizza(String type) {
+ Pizza pizza = createPizza(type);
+ if (pizza != null) {
+ pizza.prepare();
+ pizza.bake();
+ pizza.cut();
+ pizza.box();
+ } else {
+ System.out.println("Invalid pizza type");
+ }
+ }
+}
+
+Main.java
+public class Main {
+ public static void main(String[] args) {
+ PizzaStore pizzaStore = new PizzaStore();
+ pizzaStore.orderPizza("NY");
+ System.out.println("-----------------------");
+ pizzaStore.orderPizza("Chicago");
+ }
+}
+
+
+
+
+
+
+2.Write a python program to implement Naive Bayes.
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+# Load the dataset
+data = pd.read_csv('example_dataset.csv')
+# Preprocess the data
+data['Outlook'] = data['Outlook'].astype('category').cat.codes
+data['Temperature'] = data['Temperature'].astype('category').cat.codes
+data['Humidity'] = data['Humidity'].astype('category').cat.codes
+data['Windy'] = data['Windy'].astype('category').cat.codes
+data['PlayTennis'] = data['PlayTennis'].astype('category').cat.codes
+# Split the data into features and target
+X = data[['Outlook', 'Temperature', 'Humidity', 'Windy']]
+y = data['PlayTennis']
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Create a Gaussian Naive Bayes classifier
+nb_classifier = GaussianNB()
+# Train the classifier
+nb_classifier.fit(X_train, y_train)
+# Make predictions
+y_pred = nb_classifier.predict(X_test)
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy * 100:.2f}%')
+
+
+
+
+
+3. Create a Node.js file that writes an HTML form, with an upload field.
+const fs = require('fs');
+const http = require('http');
+const server = http.createServer((req, res) => {
+ if (req.url === '/upload' && req.method === 'POST') {
+ // Handle form submission
+ req.on('data', (data) => {
+ // Save the uploaded file
+ fs.writeFile('uploadedFile.txt', data, (err) => {
+ if (err) throw err;
+ console.log('File saved successfully!');
+ });
+ });
+ req.on('end', () => {
+ // Redirect user after form submission
+ res.writeHead(302, { 'Location': '/' });
+ res.end();
+ });
+ } else {
+ // Display the HTML form
+ res.writeHead(200, { 'Content-Type': 'text/html' });
+ res.write(`
+ <form action="/upload" method="POST" enctype="multipart/form-data">
+ <input type="file" name="file" required>
+ <input type="submit" value="Upload">
+ </form>
+ `);
+ res.end();
+ }
+});
+server.listen(3000, () => {
+ console.log('Server is running on port 3000');
+});
+
+
+
+
+
+
+example_dataset.csv
+
+Outlook, Temperature, Humidity, Windy, PlayTennis
+Sunny, Hot, High, False, No
+Sunny, Hot, High, True, No
+Overcast, Hot, High, False, Yes
+Rainy, Mild, High, False, Yes
+Rainy, Cool, Normal, False, Yes
+Rainy, Cool, Normal, True, No
+Overcast, Cool, Normal, True, Yes
+Sunny, Mild, High, False, No
+Sunny, Cool, Normal, False, Yes
+Rainy, Mild, Normal, False, Yes
+Sunny, Mild, Normal, True, Yes
+Overcast, Mild, High, True, Yes
+Overcast, Hot, Normal, False, Yes
+Rainy, Mild, High, True, No
+
