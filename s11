@@ -1,0 +1,164 @@
+1. Write a java program to implement Adapter pattern to design Heart Model to Beat Model.
+
+HeartModel.java
+public interface HeartModel {
+ int getHeartRate();
+}
+
+BeatModel.java
+public interface BeatModel {
+ void setBPM(int bpm);
+ int getBPM();
+ void registerObserver(BeatObserver observer);
+ void removeObserver(BeatObserver observer);
+ void registerObserver(BPMObserver observer);
+ void removeObserver(BPMObserver observer);
+}
+
+HeartAdapter.java
+public class HeartAdapter implements BeatModel {
+ HeartModel heartModel;
+ public HeartAdapter(HeartModel heartModel) {
+ this.heartModel = heartModel;
+ }
+ @Override
+ public void setBPM(int bpm) {
+ // Not supported by HeartModel
+ }
+ @Override
+ public int getBPM() {
+ return heartModel.getHeartRate();
+ }
+ @Override
+ public void registerObserver(BeatObserver observer) {
+ // Not supported by HeartModel
+ }
+ @Override
+ public void removeObserver(BeatObserver observer) {
+ // Not supported by HeartModel
+ }
+ @Override
+ public void registerObserver(BPMObserver observer) {
+ // Not supported by HeartModel
+ }
+ @Override
+ public void removeObserver(BPMObserver observer) {
+ // Not supported by HeartModel
+ }
+}
+
+HeartModelImpl.java
+public class HeartModelImpl implements HeartModel {
+ private int heartRate = 70;
+ @Override
+ public int getHeartRate() {
+ return heartRate;
+ }
+ // Additional methods and logic for HeartModel can be added here
+}
+
+BeatObserver.java
+public interface BeatObserver {
+ void updateBeat();
+}
+
+BPMObserver.java
+public interface BPMObserver {
+ void updateBPM();
+}
+
+Main.java
+public class Main {
+ public static void main(String[] args) {
+ HeartModel heartModel = new HeartModelImpl();
+ BeatModel beatModel = new HeartAdapter(heartModel);
+ // Use beatModel to access heart rate as if it's a BeatModel
+ int bpm = beatModel.getBPM();
+ System.out.println("Heart rate: " + bpm);
+ }
+}
+
+
+
+2. Write a python program to find all null values in a given dataset and remove them.
+import pandas as pd
+# Load the dataset from a CSV file
+df = pd.read_csv('example_dataset.csv')
+# Find and display null values in the dataset
+print("Null values before removal:")
+print(df.isnull().sum())
+# Remove rows with null values
+df = df.dropna()
+# Save the cleaned dataset to a new CSV file
+cleaned_file_path = 'cleaned_dataset.csv'
+df.to_csv(cleaned_file_path, index=False)
+print("Null values after removal:")
+print(df.isnull().sum())
+print(f"Cleaned dataset saved to {cleaned_file_path}")
+
+
+
+
+3. Create a node.js file that Select all records from the "customers" table, and delete the specified 
+record.
+const mysql = require('mysql');
+// Create a MySQL connection
+const connection = mysql.createConnection({
+ host: 'your_database_host',
+ user: 'your_database_user',
+ password: 'your_database_password',
+ database: 'your_database_name',
+});
+// Connect to the database
+connection.connect((err) => {
+ if (err) {
+ console.error('Error connecting to the database: ' + err.stack);
+ return;
+ }
+ console.log('Connected to the database');
+});
+// Specify the ID of the record you want to delete
+const recordIdToDelete = 1; // Replace with the actual record ID you want to delete
+// Select all records
+const selectQuery = 'SELECT * FROM customers';
+connection.query(selectQuery, (err, results) => {
+ if (err) {
+ console.error('Error selecting records: ' + err.stack);
+ connection.end(); // Close the database connection
+ return;
+ }
+ // Output the selected records
+ console.log('Selected records:');
+ console.log(results);
+ // Delete the specified record
+ const deleteQuery = 'DELETE FROM customers WHERE id = ?';
+connection.query(deleteQuery, [recordIdToDelete], (err) => {
+ if (err) {
+ console.error('Error deleting the record: ' + err.stack);
+ } else {
+ console.log(`Record with ID ${recordIdToDelete} deleted successfully.`);
+ }
+ // Close the database connection
+ connection.end((err) => {
+ if (err) {
+ console.error('Error closing the database connection: ' + err.stack);
+ } else {
+ console.log('Connection closed.');
+ }
+ });
+ });
+});
+
+
+
+
+
+example_dataset.csv
+
+Name, Age, Gender
+Alice, 25, Female
+Bob, , Male
+Charlie, 30, Male
+David, , Male
+Eva, 28, Female
+
